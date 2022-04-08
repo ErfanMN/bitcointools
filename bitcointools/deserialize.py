@@ -336,7 +336,6 @@ def extract_public_key(bytes, version='\x00'):
     decoded = [ x for x in script_GetOp(bytes) ]
   except (struct.error, IndexError):
     return None
-
   # non-generated TxIn transactions push a signature
   # (seventy-something bytes) and then their public key
   # (33 or 65 bytes) onto the stack:
@@ -347,6 +346,14 @@ def extract_public_key(bytes, version='\x00'):
       #Return the exact bytes
       return decoded[1][1]
     return public_key_to_bc_address(decoded[1][1], version=version)
+
+  # bech32m first has version byte 1, OP_1
+  # and then witness program 20 or 32 bytes
+  match = [ opcodes.OP_1, opcodes.OP_PUSHDATA4 ]
+  if match_decoded(decoded, match):
+    if (decoded[1][0] in [20, 32]):
+      #Return the exact bytes
+      return decoded[1][1]
 
   # The Genesis Block, self-payments, and pay-by-IP-address payments look like:
   # 65 BYTES:... CHECKSIG
