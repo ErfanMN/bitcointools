@@ -343,8 +343,9 @@ def extract_public_key(bytes, version='\x00'):
   if match_decoded(decoded, match):
     if (decoded[0][0]==0 and decoded[1][0] in [20, 32]):
       #Native Segwit P2PKH or P2SH output
-      #Return version byte + the exact address bytes
-      return struct.pack("B", opcodes.OP_0) + decoded[1][1]
+      #For version 0 Segwit addresses, return without version byte,
+      #as per BIP141 bech32 addresses always have version 0
+      return decoded[1][1]
     return public_key_to_bc_address(decoded[1][1], version=version)
 
   # bech32m first has version byte 1, OP_1
