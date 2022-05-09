@@ -12,7 +12,7 @@ import binascii
 import time
 from util import short_hex, long_hex
 import struct
-
+import segwit_addr
 
 def parse_CAddress(vds):
   d = {}
@@ -343,18 +343,18 @@ def extract_public_key(bytes, version='\x00'):
   if match_decoded(decoded, match):
     if (decoded[0][0]==0 and decoded[1][0] in [20, 32]):
       #Native Segwit P2PKH or P2SH output
-      #For version 0 Segwit addresses, return without version byte,
-      #as per BIP141 bech32 addresses always have version 0
-      return decoded[1][1]
+      #bech32 addresses always have version 0
+      ff = [ord(x) for x in decoded[1][1]]
+      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version], 0, ff)
     return public_key_to_bc_address(decoded[1][1], version=version)
 
-  # bech32m first has version byte 1, OP_1
+  # bech32m has version byte 1, OP_1
   # and then witness program 20 or 32 bytes
   match = [ opcodes.OP_1, opcodes.OP_PUSHDATA4 ]
   if match_decoded(decoded, match):
     if (decoded[1][0] in [20, 32]):
-      #Return version byte + the exact address bytes
-      return struct.pack("B", opcodes.OP_1) + decoded[1][1]
+      ff = [ord(x) for x in decoded[1][1]]
+      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version], 1, ff)
 
   # The Genesis Block, self-payments, and pay-by-IP-address payments look like:
   # 65 BYTES:... CHECKSIG
