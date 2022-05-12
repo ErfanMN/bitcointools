@@ -365,7 +365,7 @@ def extract_public_key(bytes, version='\x00'):
   # Pay-by-Bitcoin-address TxOuts look like:
   # DUP HASH160 20 BYTES:... EQUALVERIFY CHECKSIG
   match = [ opcodes.OP_DUP, opcodes.OP_HASH160, opcodes.OP_PUSHDATA4, opcodes.OP_EQUALVERIFY, opcodes.OP_CHECKSIG ]
-  if match_decoded(decoded, match):
+  if match_decoded(decoded, match) and len(decoded[2][1])==20:
     return hash_160_to_bc_address(decoded[2][1], version=version)
 
   # BIP11 TxOuts look like one of these:
