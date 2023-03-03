@@ -2,7 +2,6 @@
 # Workalike python implementation of Bitcoin's CDataStream class.
 #
 import struct
-import StringIO
 import mmap
 
 class SerializationError(Exception):
