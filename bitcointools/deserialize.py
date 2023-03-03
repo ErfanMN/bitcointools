@@ -2,7 +2,6 @@
 #
 #
 
-from BCDataStream import *
 from enumeration import Enumeration
 from base58 import public_key_to_bc_address, hash_160_to_bc_address
 from decimal import Decimal
