@@ -2,6 +2,8 @@
 
 from distutils.core import setup
 
+from setuptools import find_packages
+
 setup(
     name='bitcointools',
     version='0.1',
@@ -11,7 +13,7 @@ setup(
     maintainer='Shiva S',
     maintainer_email='<shivaenigma@gmail.com>',
     url='https://github.com/shivaenigma/bitcointools',
-    packages=['bitcointools'],
+    packages=find_packages(),
     classifiers=[
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)', 'Operating System :: OS Independent'
     ]
