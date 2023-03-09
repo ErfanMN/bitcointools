@@ -2,7 +2,6 @@
 
 """encode/decode base58 in the same way that Bitcoin does"""
 
-import math
 
 __b58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 __b58base = len(__b58chars)

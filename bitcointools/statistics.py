@@ -6,14 +6,12 @@
 from bsddb.db import *
 from datetime import date
 import logging
-import os
 import sys
 
-from BCDataStream import *
-from block import scan_blocks, CachedBlockFile
+from .block import scan_blocks, CachedBlockFile
 from collections import defaultdict
-from deserialize import parse_Block
-from util import determine_db_dir, create_env
+from .deserialize import parse_Block
+from .util import determine_db_dir, create_env
 
 def main():
   import optparse

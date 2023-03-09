@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='bitcointools',
-    version='0.1',
+    version='0.2',
     description='Bitcoin tools utility',
     author='GavinAndresen',
     author_email='<gavinandresen@gmail.com>',

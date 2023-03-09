@@ -4,7 +4,7 @@
 
 import unittest
 
-import BCDataStream
+import .BCDataStream
 
 class Tests(unittest.TestCase):
   def setUp(self):

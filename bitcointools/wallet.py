@@ -6,12 +6,10 @@ from bsddb.db import *
 import logging
 import re
 import sys
-import time
 
-from BCDataStream import *
-from base58 import public_key_to_bc_address, bc_address_to_hash_160, hash_160
-from util import short_hex, long_hex
-from deserialize import *
+from .BCDataStream import *
+from .base58 import bc_address_to_hash_160, hash_160
+from .deserialize import *
 
 def open_wallet(db_env, writable=False):
   db = DB(db_env)

@@ -4,14 +4,8 @@
 
 from bsddb.db import *
 import logging
-from operator import itemgetter
 import sys
-import time
-
 from BCDataStream import *
-from base58 import public_key_to_bc_address
-from util import short_hex
-from deserialize import *
 
 def dump_blkindex_summary(db_env):
   db = DB(db_env)

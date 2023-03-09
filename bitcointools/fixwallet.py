@@ -6,8 +6,8 @@ from bsddb.db import *
 import logging
 import sys
 
-from wallet import rewrite_wallet, trim_wallet
-from util import determine_db_dir, create_env
+from .wallet import rewrite_wallet, trim_wallet
+from .util import determine_db_dir, create_env
 
 def main():
   import optparse

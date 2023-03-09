@@ -4,14 +4,10 @@
 
 from bsddb.db import *
 import logging
-from operator import itemgetter
 import sys
-import time
 
-from BCDataStream import *
-from base58 import public_key_to_bc_address
-from util import short_hex
-from deserialize import *
+from .BCDataStream import *
+from .deserialize import *
 
 def _read_CDiskTxPos(stream):
   n_file = stream.read_uint32()
