@@ -2,9 +2,8 @@
 # enum-like type
 # From the Python Cookbook, downloaded from http://code.activestate.com/recipes/67107/
 #
-import types, exceptions
 
-class EnumException(exceptions.Exception):
+class EnumException(Exception):
     pass
 
 class Enumeration:
@@ -16,11 +15,11 @@ class Enumeration:
         uniqueNames = [ ]
         uniqueValues = [ ]
         for x in enumList:
-            if type(x) == types.TupleType:
+            if type(x) == tuple:
                 x, i = x
-            if type(x) != types.StringType:
+            if type(x) != str:
                 raise EnumException("enum name is not a string: " + x)
-            if type(i) != types.IntType:
+            if type(i) != int:
                 raise EnumException("enum value is not an integer: " + i)
             if x in uniqueNames:
                 raise EnumException("enum name is not unique: " + x)
@@ -34,7 +33,7 @@ class Enumeration:
         self.lookup = lookup
         self.reverseLookup = reverseLookup
     def __getattr__(self, attr):
-        if not self.lookup.has_key(attr):
+        if attr not in self.lookup:
             raise AttributeError
         return self.lookup[attr]
     def whatis(self, value):
