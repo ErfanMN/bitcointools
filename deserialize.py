@@ -1,11 +1,11 @@
 from BCDataStream import *
 from enumeration import Enumeration
 from base58 import public_key_to_bc_address, hash_160_to_bc_address
-import logging
 import socket
 import time
 from util import short_hex, long_hex
 import struct
+
 def parse_CAddress(vds):
   d = {}
   d['nVersion'] = vds.read_int32()
@@ -80,11 +80,11 @@ def parse_Transaction(vds):
   n_vin = vds.read_compact_size()
   print("vin is " + n_vin)
   d['txIn'] = []
-  for i in xrange(n_vin):
+  for i in range(n_vin):
     d['txIn'].append(parse_TxIn(vds))
   n_vout = vds.read_compact_size()
   d['txOut'] = []
-  for i in xrange(n_vout):
+  for i in range(n_vout):
     d['txOut'].append(parse_TxOut(vds))
   d['lockTime'] = vds.read_uint32()
   d['__data__'] = vds.input[start_pos:vds.read_cursor]
@@ -119,18 +119,18 @@ def parse_WalletTx(vds):
   d = parse_MerkleTx(vds)
   n_vtxPrev = vds.read_compact_size()
   d['vtxPrev'] = []
-  for i in xrange(n_vtxPrev):
+  for i in range(n_vtxPrev):
     d['vtxPrev'].append(parse_MerkleTx(vds))
 
   d['mapValue'] = {}
   n_mapValue = vds.read_compact_size()
-  for i in xrange(n_mapValue):
+  for i in range(n_mapValue):
     key = vds.read_string()
     value = vds.read_string()
     d['mapValue'][key] = value
   n_orderForm = vds.read_compact_size()
   d['orderForm'] = []
-  for i in xrange(n_orderForm):
+  for i in range(n_orderForm):
     first = vds.read_string()
     second = vds.read_string()
     d['orderForm'].append( (first, second) )
@@ -183,7 +183,7 @@ def parse_Block(vds):
 #  if d['version'] & (1 << 8):
 #    d['auxpow'] = parse_AuxPow(vds)
   nTransactions = vds.read_compact_size()
-  for i in xrange(nTransactions):
+  for i in range(nTransactions):
     d['transactions'].append(parse_Transaction(vds))
 
   return d
@@ -202,7 +202,7 @@ def deserialize_Block(d, print_raw_tx=False):
 def parse_BlockLocator(vds):
   d = { 'hashes' : [] }
   nHashes = vds.read_compact_size()
-  for i in xrange(nHashes):
+  for i in range(nHashes):
     d['hashes'].append(vds.read_bytes(32))
   return d
 
