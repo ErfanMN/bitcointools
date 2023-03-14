@@ -110,7 +110,7 @@ def parse_Transaction(vds):
   for i in range(n_vout):
     d['txOut'].append(parse_TxOut(vds))
 
-  tx_data += vds.input[tx_data_pos:vds.read_cursor]
+  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode('utf-8')
   
   if (flag):  
     read_witness_data(vds, n_vin)  
