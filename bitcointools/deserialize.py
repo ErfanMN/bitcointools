@@ -89,7 +89,7 @@ def parse_Transaction(vds):
   start_data_pos = vds.read_cursor 
   tx_data_pos = vds.read_cursor
   d['version'] = vds.read_int32()
-  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode('utf-8')
+  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode()
   
   tx_data_pos = vds.read_cursor
   n_vin = vds.read_compact_size()
@@ -110,7 +110,7 @@ def parse_Transaction(vds):
   for i in range(n_vout):
     d['txOut'].append(parse_TxOut(vds))
 
-  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode('utf-8')
+  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode()
   
   if (flag):  
     read_witness_data(vds, n_vin)  
