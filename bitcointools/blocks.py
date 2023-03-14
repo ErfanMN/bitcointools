@@ -40,12 +40,12 @@ def dump_blockindex(db_env, owner=None, n_to_dump=1000):
       hash256 = kds.read_bytes(32)
       version = vds.read_uint32()
       tx_pos = _read_CDiskTxPos(vds)
-      print("Tx(%s:%d %d %d)"%((short_hex(hash256),)+tx_pos))
+      print(("Tx(%s:%d %d %d)"%((short_hex(hash256),)+tx_pos)))
       n_tx_out = vds.read_compact_size()
       for i in range(0,n_tx_out):
         tx_out = _read_CDiskTxPos(vds)
-        if tx_out[0] != 0xffffffffL:  # UINT_MAX means no TxOuts (unspent)
-          print("  ==> TxOut(%d %d %d)"%tx_out)
+        if tx_out[0] != 0xffffffff:  # UINT_MAX means no TxOuts (unspent)
+          print(("  ==> TxOut(%d %d %d)"%tx_out))
       
     else:
       logging.warn("blkindex: type %s"%(type,))

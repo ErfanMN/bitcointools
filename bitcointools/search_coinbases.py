@@ -56,7 +56,7 @@ def main():
       results['checked'] += 1
       if re.search(options.lookfor, scriptSig) is not None:
         results['matched'] += 1
-        if options.verbose: print("Block %d : %s"%(block_data['nHeight'], scriptSig.encode('string_escape')) )
+        if options.verbose: print(("Block %d : %s"%(block_data['nHeight'], scriptSig.encode('string_escape')) ))
 
     results['searched'] += 1
     return results['searched'] < options.howmany
@@ -66,7 +66,7 @@ def main():
   db_env.close()
 
   percent = (100.0*results['matched'])/results['checked']
-  print("Found %d matches in %d blocks (%.1f percent)"%(results['matched'], results['checked'], percent))
+  print(("Found %d matches in %d blocks (%.1f percent)"%(results['matched'], results['checked'], percent)))
 
 if __name__ == '__main__':
     main()

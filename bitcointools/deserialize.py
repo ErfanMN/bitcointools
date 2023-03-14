@@ -12,7 +12,7 @@ from .base58 import public_key_to_bc_address
 from .enumeration import Enumeration
 from .util import short_hex, long_hex
 import struct
-import segwit_addr
+from . import segwit_addr
 
 def parse_CAddress(vds):
   d = {}
@@ -89,7 +89,7 @@ def parse_Transaction(vds):
   start_data_pos = vds.read_cursor 
   tx_data_pos = vds.read_cursor
   d['version'] = vds.read_int32()
-  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode()
+  tx_data += vds.input[tx_data_pos:vds.read_cursor]
   
   tx_data_pos = vds.read_cursor
   n_vin = vds.read_compact_size()
@@ -110,7 +110,7 @@ def parse_Transaction(vds):
   for i in range(n_vout):
     d['txOut'].append(parse_TxOut(vds))
 
-  tx_data += vds.input[tx_data_pos:vds.read_cursor].decode()
+  tx_data += vds.input[tx_data_pos:vds.read_cursor]
   
   if (flag):  
     read_witness_data(vds, n_vin)  

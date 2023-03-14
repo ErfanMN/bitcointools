@@ -25,7 +25,7 @@ def dump_addresses(db_env):
   kds = BCDataStream()
   vds = BCDataStream()
 
-  for (key, value) in db.items():
+  for (key, value) in list(db.items()):
     kds.clear(); kds.write(key)
     vds.clear(); vds.write(value)
 
@@ -33,6 +33,6 @@ def dump_addresses(db_env):
 
     if type == "addr":
       d = parse_CAddress(vds)
-      print(deserialize_CAddress(d))
+      print((deserialize_CAddress(d)))
 
   db.close()

@@ -29,7 +29,7 @@ def parse_wallet(db, item_callback):
   kds = BCDataStream()
   vds = BCDataStream()
 
-  for (key, value) in db.items():
+  for (key, value) in list(db.items()):
     d = { }
 
     kds.clear(); kds.write(key)
@@ -42,8 +42,8 @@ def parse_wallet(db, item_callback):
       d["__value__"] = value
       d["__type__"] = type
 
-    except Exception, e:
-      print("ERROR attempting to read data from wallet.dat, type %s"%type)
+    except Exception as e:
+      print(("ERROR attempting to read data from wallet.dat, type %s"%type))
       continue
 
     try:
@@ -103,15 +103,15 @@ def parse_wallet(db, item_callback):
         d['scriptHash'] = kds.read_bytes(20)
         d['script'] = vds.read_bytes(vds.read_compact_size())
       else:
-        print "Skipping item of type "+type
+        print("Skipping item of type "+type)
         continue
       
       item_callback(type, d)
 
-    except Exception, e:
-      print("ERROR parsing wallet.dat, type %s"%type)
-      print("key data in hex: %s"%key.encode('hex_codec'))
-      print("value data in hex: %s"%value.encode('hex_codec'))
+    except Exception as e:
+      print(("ERROR parsing wallet.dat, type %s"%type))
+      print(("key data in hex: %s"%key.encode('hex_codec')))
+      print(("value data in hex: %s"%value.encode('hex_codec')))
   
 def update_wallet(db, type, data):
   """Write a single item to the wallet.
@@ -187,14 +187,14 @@ def update_wallet(db, type, data):
       for h in d['hashes']:
         vds.write(h)
     else:
-      print "Unknown key type: "+type
+      print("Unknown key type: "+type)
 
     # Write the key/value pair to the database
     db.put(kds.input, vds.input)
 
-  except Exception, e:
-    print("ERROR writing to wallet.dat, type %s"%type)
-    print("data dictionary: %r"%data)
+  except Exception as e:
+    print(("ERROR writing to wallet.dat, type %s"%type))
+    print(("data dictionary: %r"%data))
 
 def dump_wallet(db_env, print_wallet, print_wallet_transactions, transaction_filter):
   db = open_wallet(db_env)
@@ -217,41 +217,41 @@ def dump_wallet(db_env, print_wallet, print_wallet_transactions, transaction_fil
     if type == "tx":
       return
     elif type == "name":
-      print("ADDRESS "+d['hash']+" : "+d['name'])
+      print(("ADDRESS "+d['hash']+" : "+d['name']))
     elif type == "version":
-      print("Version: %d"%(d['version'],))
+      print(("Version: %d"%(d['version'],)))
     elif type == "setting":
-      print(d['setting']+": "+str(d['value']))
+      print((d['setting']+": "+str(d['value'])))
     elif type == "key":
-      print("PubKey "+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
-            ": PriKey "+ short_hex(d['private_key']))
+      print(("PubKey "+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
+            ": PriKey "+ short_hex(d['private_key'])))
     elif type == "wkey":
-      print("WPubKey 0x"+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
-            ": WPriKey 0x"+ short_hex(d['crypted_key']))
-      print(" Created: "+time.ctime(d['created'])+" Expires: "+time.ctime(d['expires'])+" Comment: "+d['comment'])
+      print(("WPubKey 0x"+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
+            ": WPriKey 0x"+ short_hex(d['crypted_key'])))
+      print((" Created: "+time.ctime(d['created'])+" Expires: "+time.ctime(d['expires'])+" Comment: "+d['comment']))
     elif type == "ckey":
-      print("PubKey "+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
-            ": Encrypted PriKey "+ short_hex(d['crypted_key']))
+      print(("PubKey "+ short_hex(d['public_key']) + " " + public_key_to_bc_address(d['public_key']) +
+            ": Encrypted PriKey "+ short_hex(d['crypted_key'])))
     elif type == "mkey":
-      print("Master Key %d"%(d['nID']) + ": 0x"+ short_hex(d['crypted_key']) +
+      print(("Master Key %d"%(d['nID']) + ": 0x"+ short_hex(d['crypted_key']) +
             ", Salt: 0x"+ short_hex(d['salt']) +
             ". Passphrase hashed %d times with method %d with other parameters 0x"%(d['nDeriveIterations'], d['nDerivationMethod']) +
-            long_hex(d['vchOtherDerivationParameters']))
+            long_hex(d['vchOtherDerivationParameters'])))
     elif type == "defaultkey":
-      print("Default Key: 0x"+ short_hex(d['key']) + " " + public_key_to_bc_address(d['key']))
+      print(("Default Key: 0x"+ short_hex(d['key']) + " " + public_key_to_bc_address(d['key'])))
     elif type == "pool":
-      print("Change Pool key %d: %s (Time: %s)"% (d['n'], public_key_to_bc_address(d['public_key']), time.ctime(d['nTime'])))
+      print(("Change Pool key %d: %s (Time: %s)"% (d['n'], public_key_to_bc_address(d['public_key']), time.ctime(d['nTime']))))
     elif type == "acc":
-      print("Account %s (current key: %s)"%(d['account'], public_key_to_bc_address(d['public_key'])))
+      print(("Account %s (current key: %s)"%(d['account'], public_key_to_bc_address(d['public_key']))))
     elif type == "acentry":
-      print("Move '%s' %d (other: '%s', time: %s, entry %d) %s"%
-            (d['account'], d['nCreditDebit'], d['otherAccount'], time.ctime(d['nTime']), d['n'], d['comment']))
+      print(("Move '%s' %d (other: '%s', time: %s, entry %d) %s"%
+            (d['account'], d['nCreditDebit'], d['otherAccount'], time.ctime(d['nTime']), d['n'], d['comment'])))
     elif type == "bestblock":
-      print deserialize_BlockLocator(d)
+      print(deserialize_BlockLocator(d))
     elif type == "cscript":
-      print("CScript: %s : %s"%(public_key_to_bc_address(d['scriptHash'], "\x01"), long_hex(d['script'])))
+      print(("CScript: %s : %s"%(public_key_to_bc_address(d['scriptHash'], "\x01"), long_hex(d['script']))))
     else:
-      print "Unknown key type: "+type
+      print("Unknown key type: "+type)
 
   parse_wallet(db, item_callback)
 
@@ -261,7 +261,7 @@ def dump_wallet(db_env, print_wallet, print_wallet_transactions, transaction_fil
       tx_value = deserialize_WalletTx(d, transaction_index, owner_keys)
       if len(transaction_filter) > 0 and re.search(transaction_filter, tx_value) is None: continue
 
-      print("==WalletTransaction== "+long_hex(d['tx_id'][::-1]))
+      print(("==WalletTransaction== "+long_hex(d['tx_id'][::-1])))
       print(tx_value)
 
   db.close()
@@ -274,7 +274,7 @@ def dump_accounts(db_env):
 
   accounts = set()
 
-  for (key, value) in db.items():
+  for (key, value) in list(db.items()):
     kds.clear(); kds.write(key)
     vds.clear(); vds.write(value)
 

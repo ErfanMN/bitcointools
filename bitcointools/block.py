@@ -38,19 +38,19 @@ def _dump_block(datadir, nFile, nBlockPos, hash256, hashNext, do_print=True, pri
   ds.close_file()
   blockfile.close()
   if do_print:
-    print "BLOCK "+long_hex(hash256[::-1])
-    print "Next block: "+long_hex(hashNext[::-1])
-    print block_string
+    print("BLOCK "+long_hex(hash256[::-1]))
+    print("Next block: "+long_hex(hashNext[::-1]))
+    print(block_string)
   elif print_json:
     import json
-    print json.dumps({
+    print(json.dumps({
                         'version': d['version'],
                         'previousblockhash': d['hashPrev'][::-1].encode('hex'),
                         'transactions' : [ tx_hex['__data__'].encode('hex') for tx_hex in d['transactions'] ],
                         'time' : d['nTime'],
                         'bits' : hex(d['nBits']).lstrip("0x"),
                         'nonce' : d['nNonce']
-                      })
+                      }))
 
   return block_string
 
@@ -99,12 +99,12 @@ def dump_block(datadir, db_env, block_hash, print_raw_tx=False, print_json=False
 
     if (hash_hex.startswith(block_hash) or short_hex(hash256[::-1]).startswith(block_hash)):
       if print_json == False:
-          print "Block height: "+str(block_data['nHeight'])
+          print("Block height: "+str(block_data['nHeight']))
           _dump_block(datadir, block_data['nFile'], block_data['nBlockPos'], hash256, block_data['hashNext'], print_raw_tx=print_raw_tx)
       else:
           _dump_block(datadir, block_data['nFile'], block_data['nBlockPos'], hash256, block_data['hashNext'], print_json=print_json, do_print=False)
 
-    (key, value) = cursor.next()
+    (key, value) = next(cursor)
 
   db.close()
 
@@ -152,7 +152,7 @@ def dump_block_n(datadir, db_env, block_number, print_raw_tx=False, print_json=F
   block_data = scan_blocks(datadir, db_env, scan_callback)
   
   if print_json == False:
-    print "Block height: "+str(block_data['nHeight'])
+    print("Block height: "+str(block_data['nHeight']))
     _dump_block(datadir, block_data['nFile'], block_data['nBlockPos'], block_data['hash256'], block_data['hashNext'], print_raw_tx=print_raw_tx, print_json=print_json)
   else:
     _dump_block(datadir, block_data['nFile'], block_data['nBlockPos'], block_data['hash256'], block_data['hashNext'], do_print=False, print_raw_tx=print_raw_tx, print_json=print_json)
@@ -180,8 +180,8 @@ def search_blocks(datadir, db_env, pattern):
                                block_data['hash256'], block_data['hashNext'], False)
     
     if re.search(pattern, block_string) is not None:
-      print "MATCH: Block height: "+str(block_data['nHeight'])
-      print block_string
+      print("MATCH: Block height: "+str(block_data['nHeight']))
+      print(block_string)
 
     if block_data['nHeight'] == 0:
       break
@@ -199,7 +199,7 @@ def search_odd_scripts(datadir, cursor, block_data):
       if re.match(r'\s*COIN GENERATED coinbase:\w+$', s): continue
       if re.match(r'.*sig: \d+:\w+...\w+ \d+:\w+...\w+$', s): continue
       if re.match(r'.*sig: \d+:\w+...\w+$', s): continue
-      print "Nonstandard TxIn: "+s
+      print("Nonstandard TxIn: "+s)
       found_nonstandard = True
       break
 
@@ -207,13 +207,13 @@ def search_odd_scripts(datadir, cursor, block_data):
       s = m.group(1)
       if re.match(r'.*Script: DUP HASH160 \d+:\w+...\w+ EQUALVERIFY CHECKSIG$', s): continue
       if re.match(r'.*Script: \d+:\w+...\w+ CHECKSIG$', s): continue
-      print "Nonstandard TxOut: "+s
+      print("Nonstandard TxOut: "+s)
       found_nonstandard = True
       break
 
     if found_nonstandard:
-      print "NONSTANDARD TXN: Block height: "+str(block_data['nHeight'])
-      print block_string
+      print("NONSTANDARD TXN: Block height: "+str(block_data['nHeight']))
+      print(block_string)
 
     if block_data['nHeight'] == 0:
       break
@@ -243,15 +243,15 @@ def check_block_chain(db_env):
   back_blocks.append( (block_data['nHeight'], block_data['hashMerkle'], block_data['hashPrev'], block_data['hashNext']) )
   genesis_block = block_data
   
-  print("check block chain: genesis block merkle hash is: %s"%(block_data['hashMerkle'][::-1].encode('hex_codec')))
+  print(("check block chain: genesis block merkle hash is: %s"%(block_data['hashMerkle'][::-1].encode('hex_codec'))))
 
   while block_data['hashNext'] != ('\0'*32):
     forward = (block_data['nHeight'], block_data['hashMerkle'], block_data['hashPrev'], block_data['hashNext'])
     back = back_blocks.pop()
     if forward != back:
-      print("Forward/back block mismatch at height %d!"%(block_data['nHeight'],))
-      print(" Forward: "+str(forward))
-      print(" Back: "+str(back))
+      print(("Forward/back block mismatch at height %d!"%(block_data['nHeight'],)))
+      print((" Forward: "+str(forward)))
+      print((" Back: "+str(back)))
     block_data = read_block(cursor, block_data['hashNext'])
 
 class CachedBlockFile(object):

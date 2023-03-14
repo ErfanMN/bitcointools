@@ -22,7 +22,7 @@ def _dump_tx(datadir, tx_hash, tx_pos):
   ds = BCDataStream()
   ds.map_file(blockfile, tx_pos[2])
   d = parse_Transaction(ds)
-  print deserialize_Transaction(d)
+  print(deserialize_Transaction(d))
   ds.close_file()
   blockfile.close()
 
@@ -62,7 +62,7 @@ def dump_transaction(datadir, db_env, tx_id):
     if (hash_hex.startswith(tx_id) or short_hex(hash256[::-1]).startswith(tx_id)):
       _dump_tx(datadir, hash256, tx_pos)
 
-    (key, value) = cursor.next()
+    (key, value) = next(cursor)
 
   db.close()
 

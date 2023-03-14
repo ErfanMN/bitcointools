@@ -92,5 +92,5 @@ def bc_address_to_hash_160(addr):
 if __name__ == '__main__':
     x = '005cc87f4a3fdfe3a2346b6953267ca867282630d3f9b78e64'.decode('hex_codec')
     encoded = b58encode(x)
-    print(encoded, '19TbMSWwHvnxAKy12iNm3KdbGfzfaMFViT')
-    print(b58decode(encoded, len(x)).encode('hex_codec'), x.encode('hex_codec'))
+    print((encoded, '19TbMSWwHvnxAKy12iNm3KdbGfzfaMFViT'))
+    print((b58decode(encoded, len(x)).encode('hex_codec'), x.encode('hex_codec')))

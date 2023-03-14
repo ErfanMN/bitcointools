@@ -6,12 +6,12 @@ from bsddb.db import *
 import logging
 import sys
 
-from address import dump_addresses
-from wallet import dump_wallet, dump_accounts
-from blkindex import dump_blkindex_summary
-from transaction import dump_transaction
-from block import dump_block, dump_block_n, search_blocks, check_block_chain
-from util import determine_db_dir, create_env
+from .address import dump_addresses
+from .wallet import dump_wallet, dump_accounts
+from .blkindex import dump_blkindex_summary
+from .transaction import dump_transaction
+from .block import dump_block, dump_block_n, search_blocks, check_block_chain
+from .util import determine_db_dir, create_env
 
 def main():
   import optparse
