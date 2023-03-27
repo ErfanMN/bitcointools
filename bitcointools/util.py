@@ -8,7 +8,7 @@ except:
   pass
 
 def long_hex(bytes):
-  return bytes.encode('hex_codec')
+  return bytes.hex()
 
 def short_hex(bytes):
   t = bytes.encode('hex_codec')

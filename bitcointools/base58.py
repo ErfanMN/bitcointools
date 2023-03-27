@@ -80,7 +80,7 @@ def public_key_to_bc_address(public_key, version="\x00"):
 def hash_160_to_bc_address(h160, version="\x00"):
   if not have_crypto:
     return ''
-  vh160 = version+h160
+  vh160 = version.encode('utf-8')+h160
   h3=hashlib.sha256(hashlib.sha256(vh160).digest()).digest()
   addr=vh160+h3[0:4]
   return b58encode(addr)
