@@ -119,7 +119,7 @@ def parse_Transaction(vds):
   d['lockTime'] = vds.read_uint32()
   tx_data += vds.input[tx_data_pos:vds.read_cursor]
 
-  d['__data__'] = tx_data
+  d['__data__'] = str(tx_data)
   d['size'] = vds.read_cursor - start_data_pos 
   return d
 
