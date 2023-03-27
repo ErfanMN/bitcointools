@@ -96,13 +96,13 @@ class BCDataStream(object):
     elif size < 253:
        self.write(chr(size))
     elif size < 2**16:
-      self.write('\xfd')
+      self.write(b'\xfd')
       self._write_num('<H', size)
     elif size < 2**32:
-      self.write('\xfe')
+      self.write(b'\xfe')
       self._write_num('<I', size)
     elif size < 2**64:
-      self.write('\xff')
+      self.write(b'\xff')
       self._write_num('<Q', size)
 
   def _read_num(self, format):
