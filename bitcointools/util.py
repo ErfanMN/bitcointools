@@ -8,16 +8,15 @@ except:
   pass
 
 def long_hex(bytes):
-  return bytes.encode('hex_codec')
+  return bytes.hex()
 
 def short_hex(bytes):
-  t = bytes.encode('hex_codec')
+  t = bytes.hex()
   if len(t) < 11:
     return t
   return t[0:4]+"..."+t[-4:]
 
 def determine_db_dir():
-  import os
   import os.path
   import platform
   if platform.system() == "Darwin":
