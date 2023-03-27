@@ -85,7 +85,7 @@ def parse_Transaction(vds):
   flag = 0
   #We need to exclude witness and flag data
   #for txid calculation
-  tx_data = b''
+  tx_data = ''
   start_data_pos = vds.read_cursor 
   tx_data_pos = vds.read_cursor
   d['version'] = vds.read_int32()
@@ -119,7 +119,7 @@ def parse_Transaction(vds):
   d['lockTime'] = vds.read_uint32()
   tx_data += vds.input[tx_data_pos:vds.read_cursor]
 
-  d['__data__'] = str(tx_data)
+  d['__data__'] = tx_data
   d['size'] = vds.read_cursor - start_data_pos 
   return d
 
@@ -281,7 +281,7 @@ def script_GetOp(bytes):
   i = 0
   while i < len(bytes):
     vch = None
-    opcode = bytes[i]
+    opcode = ord(bytes[i])
     i += 1
 
     if opcode <= opcodes.OP_PUSHDATA4:
