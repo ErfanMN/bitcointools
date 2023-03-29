@@ -71,16 +71,16 @@ def hash_160(public_key):
   h2 = r160.digest()
   return h2
 
-def public_key_to_bc_address(public_key, version="\x00"):
+def public_key_to_bc_address(public_key, version=b"\x00"):
   if not have_crypto or public_key is None:
     return ''
   h160 = hash_160(public_key)
   return hash_160_to_bc_address(h160, version=version)
 
-def hash_160_to_bc_address(h160, version="\x00"):
+def hash_160_to_bc_address(h160, version=b"\x00"):
   if not have_crypto:
     return ''
-  vh160 = version.encode('utf-8')+h160
+  vh160 = version+h160
   h3=hashlib.sha256(hashlib.sha256(vh160).digest()).digest()
   addr=vh160+h3[0:4]
   return b58encode(addr)
@@ -90,7 +90,7 @@ def bc_address_to_hash_160(addr):
   return bytes[1:21]
 
 if __name__ == '__main__':
-    x = '005cc87f4a3fdfe3a2346b6953267ca867282630d3f9b78e64'.decode('hex_codec')
+    x = bytearray.fromhex('005cc87f4a3fdfe3a2346b6953267ca867282630d3f9b78e64').decode()
     encoded = b58encode(x)
     print((encoded, '19TbMSWwHvnxAKy12iNm3KdbGfzfaMFViT'))
     print((b58decode(encoded, len(x)).encode('hex_codec'), x.encode('hex_codec')))

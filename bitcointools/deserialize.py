@@ -8,7 +8,7 @@ import socket
 import binascii
 import time
 
-from .base58 import public_key_to_bc_address
+from .base58 import public_key_to_bc_address, hash_160_to_bc_address
 from .enumeration import Enumeration
 from .util import short_hex, long_hex
 import struct
@@ -18,7 +18,7 @@ def parse_CAddress(vds):
   d = {}
   d['nVersion'] = vds.read_int32()
   d['nTime'] = vds.read_uint32()
-  d['nServices'] = vds.read_uint64()
+  d['nServices'] = vds.read_int64()
   d['pchReserved'] = vds.read_bytes(12)
   d['ip'] = socket.inet_ntoa(vds.read_bytes(4))
   d['port'] = socket.htons(vds.read_uint16())

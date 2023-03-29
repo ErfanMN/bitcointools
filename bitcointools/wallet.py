@@ -90,7 +90,7 @@ def parse_wallet(db, item_callback):
         d['public_key'] = vds.read_bytes(vds.read_compact_size())
       elif type == "acentry":
         d['account'] = kds.read_string()
-        d['n'] = kds.read_uint64()
+        d['n'] = kds.read_int64()
         d['nVersion'] = vds.read_int32()
         d['nCreditDebit'] = vds.read_int64()
         d['nTime'] = vds.read_int64()
@@ -175,7 +175,7 @@ def update_wallet(db, type, data):
       vds.write_string(d['public_key'])
     elif type == "acentry":
       kds.write_string(d['account'])
-      kds.write_uint64(d['n'])
+      kds.write_int64(d['n'])
       vds.write_int32(d['nVersion'])
       vds.write_int64(d['nCreditDebit'])
       vds.write_int64(d['nTime'])

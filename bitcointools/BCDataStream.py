@@ -69,7 +69,6 @@ class BCDataStream(object):
   def read_int32(self): return self._read_num('<i')
   def read_uint32(self): return self._read_num('<I')
   def read_int64(self): return self._read_num('<q')
-  def read_uint64(self): return self._read_num('<Q')
 
   def write_boolean(self, val): return self.write(chr(1) if val else chr(0))
   def write_int16(self, val): return self._write_num('<h', val)
@@ -77,7 +76,6 @@ class BCDataStream(object):
   def write_int32(self, val): return self._write_num('<i', val)
   def write_uint32(self, val): return self._write_num('<I', val)
   def write_int64(self, val): return self._write_num('<q', val)
-  def write_uint64(self, val): return self._write_num('<Q', val)
 
   def read_compact_size(self):
     size = self.input[self.read_cursor]
@@ -94,7 +92,7 @@ class BCDataStream(object):
     if size < 0:
       raise SerializationError("attempt to write size < 0")
     elif size < 253:
-       self.write(chr(size))
+       self.write(chr(size).encode())
     elif size < 2**16:
       self.write(b'\xfd')
       self._write_num('<H', size)
