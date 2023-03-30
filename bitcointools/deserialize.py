@@ -52,7 +52,7 @@ def parse_TxIn(vds):
 def deserialize_TxIn(d, transaction_index=None, owner_keys=None):
   result = {}
   if d['prevout_hash'] == b"\x00"*32:
-    result['coinbase'] = d['scriptSig'].encode('hex_codec')
+    result['coinbase'] = d['scriptSig'].hex()
   else:
     result['txid'] = long_hex(d['prevout_hash'][::-1])
     result['vout'] = d['prevout_n']
