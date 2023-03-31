@@ -296,7 +296,7 @@ def script_GetOp(bytes):
         (nSize,) = struct.unpack_from('<I', bytes, i)
         i += 4
       if i+nSize > len(bytes):
-        vch = "_INVALID_"+bytes[i:]
+        vch = b"_INVALID_"+bytes[i:]
         i = len(bytes)
       else:
         vch = bytes[i:i+nSize]
@@ -331,7 +331,7 @@ def match_decoded(decoded, to_match):
       return False
   return True
 
-def extract_public_key(bytes, version='\x00'):
+def extract_public_key(bytes, version=b'\x00'):
   try:
     decoded = [ x for x in script_GetOp(bytes) ]
   except (struct.error, IndexError):
