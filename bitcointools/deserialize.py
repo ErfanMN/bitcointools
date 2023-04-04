@@ -344,8 +344,8 @@ def extract_public_key(bytes, version=b'\x00'):
     if (decoded[0][0]==0 and decoded[1][0] in [20, 32]):
       #Native Segwit P2PKH or P2SH output
       #bech32 addresses always have version 0
-      ff = [ord(x) for x in decoded[1][1]]
-      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version], 0, ff)
+      ff = [x for x in decoded[1][1]]
+      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version.decode()], 0, ff)
     return public_key_to_bc_address(decoded[1][1], version=version)
 
   # bech32m has version byte 1, OP_1
@@ -353,8 +353,8 @@ def extract_public_key(bytes, version=b'\x00'):
   match = [ opcodes.OP_1, opcodes.OP_PUSHDATA4 ]
   if match_decoded(decoded, match):
     if (decoded[1][0] in [20, 32]):
-      ff = [ord(x) for x in decoded[1][1]]
-      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version], 1, ff)
+      ff = [x for x in decoded[1][1]]
+      return segwit_addr.encode(segwit_addr.SEGWIT_HRPS[version.decode()], 1, ff)
 
   # The Genesis Block, self-payments, and pay-by-IP-address payments look like:
   # 65 BYTES:... CHECKSIG
