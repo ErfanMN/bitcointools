@@ -2,11 +2,6 @@
 # Misc util routines
 #
 
-try:
-  from bsddb.db import *
-except:
-  pass
-
 def long_hex(bytes):
   return bytes.hex()
 
@@ -25,11 +20,3 @@ def determine_db_dir():
     return os.path.join(os.environ['APPDATA'], "Bitcoin")
   return os.path.expanduser("~/.bitcoin")
 
-def create_env(db_dir=None):
-  if db_dir is None:
-    db_dir = determine_db_dir()
-  db_env = DBEnv(0)
-  r = db_env.open(db_dir,
-                  (DB_CREATE|DB_INIT_LOCK|DB_INIT_LOG|DB_INIT_MPOOL|
-                   DB_INIT_TXN|DB_THREAD|DB_RECOVER))
-  return db_env

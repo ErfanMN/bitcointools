@@ -1,7 +1,3 @@
-#
-#
-#
-
 from decimal import Decimal
 import hashlib
 import socket
