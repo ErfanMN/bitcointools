@@ -85,7 +85,7 @@ class BCDataStream(object):
     elif size == 254:
       size = self._read_num('<I')
     elif size == 255:
-      size = self._read_num('<Q')
+      size = self._read_num('<q')
     return size
 
   def write_compact_size(self, size):
@@ -101,7 +101,7 @@ class BCDataStream(object):
       self._write_num('<I', size)
     elif size < 2**64:
       self.write(b'\xff')
-      self._write_num('<Q', size)
+      self._write_num('<q', size)
 
   def _read_num(self, format):
     (i,) = struct.unpack_from(format, self.input, self.read_cursor)

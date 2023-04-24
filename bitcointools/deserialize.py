@@ -61,7 +61,7 @@ def parse_TxOut(vds):
   d['scriptPubKey'] = vds.read_bytes(vds.read_compact_size())
   return d
 
-def deserialize_TxOut(d, owner_keys=None, version='\x00'):
+def deserialize_TxOut(d, owner_keys=None, version=b'\x00'):
   result = {}
   result['value'] = Decimal(d['value']) / Decimal(1.0e8)
   pk = extract_public_key(d['scriptPubKey'], version)
@@ -128,7 +128,7 @@ def read_witness_data(vds, txin_size):
       out = vds.read_bytes(item_size)
 
 def deserialize_Transaction(d, transaction_index=None, owner_keys=None,
-                            print_raw_tx=False, version='\x00'):
+                            print_raw_tx=False, version=b'\x00'):
   result = {}
   result['vin'] = []
   result['vout'] = []
@@ -230,7 +230,7 @@ def parse_Block(vds):
 
   return d
   
-def deserialize_Block(d, print_raw_tx=False, version='\x00'):
+def deserialize_Block(d, print_raw_tx=False, version=b'\x00'):
   result = []
   # block timestamps are unreliable 
   # make sure it is less than current time

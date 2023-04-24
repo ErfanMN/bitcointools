@@ -1,1 +1,5 @@
 *.pyc
+venv/
+bitcointools.egg-info/
+.idea
+.vs
