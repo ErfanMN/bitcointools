@@ -37,19 +37,19 @@ def b58decode(v, length):
   for (i, c) in enumerate(v[::-1]):
     long_value += __b58chars.find(c) * (__b58base**i)
 
-  result = ''
+  result = b''
   while long_value >= 256:
     div, mod = divmod(long_value, 256)
-    result = chr(mod) + result
+    result = bytes([mod]) + result
     long_value = div
-  result = chr(long_value) + result
+  result = bytes([long_value]) + result
 
   nPad = 0
   for c in v:
     if c == __b58chars[0]: nPad += 1
     else: break
 
-  result = chr(0)*nPad + result
+  result = bytes([0])*nPad + result
   if length is not None and len(result) != length:
     return None
 
