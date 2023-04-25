@@ -46,7 +46,7 @@ def b58decode(v, length):
 
   nPad = 0
   for c in v:
-    if chr(c) == __b58chars[0]: nPad += 1
+    if c == __b58chars[0]: nPad += 1
     else: break
 
   result = bytes([0])*nPad + result
