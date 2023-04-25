@@ -25,7 +25,7 @@ def b58encode(v):
   # leading 0-bytes in the input become leading-1s
   nPad = 0
   for c in v:
-    if c == '\0': nPad += 1
+    if chr(c) == '\0': nPad += 1
     else: break
 
   return (__b58chars[0]*nPad) + result
@@ -35,7 +35,7 @@ def b58decode(v, length):
   """
   long_value = 0
   for (i, c) in enumerate(v[::-1]):
-    long_value += __b58chars.find(c) * (__b58base**i)
+    long_value += __b58chars.find(chr(c)) * (__b58base**i)
 
   result = b''
   while long_value >= 256:
